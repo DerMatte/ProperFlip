@@ -26,6 +26,7 @@ import {
   PlusCircle,
   Settings,
   User,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -140,6 +141,18 @@ export function DashboardLayout({
                   <Link href="/app/syndication">
                     <Globe className="h-5 w-5" />
                     <span>Syndication</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/app/teams" || pathname.startsWith("/app/teams/")}
+                  className="px-6"
+                >
+                  <Link href="/app/teams">
+                    <Users className="h-5 w-5" />
+                    <span>Teams</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

@@ -49,7 +49,7 @@ export default function CreateTeamButton() {
       router.refresh()
       
       if (team?.id) {
-        router.push(`/teams/${team.id}`)
+        router.push(`/app/teams/${team.id}`)
       }
     } catch (error) {
       console.error('Error creating team:', error)
