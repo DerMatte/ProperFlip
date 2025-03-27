@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "./dashboard-layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -18,98 +17,65 @@ import { CheckCircle, Clock, Eye, MoreHorizontal, X } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 
-const inquiries = [
-  {
-    id: "1",
-    name: "Sarah Johnson",
-    email: "sarah.j@example.com",
-    phone: "(555) 123-4567",
-    property: "Modern Apartment",
-    date: "2023-03-15",
-    status: "New",
-    message: "I'm interested in scheduling a viewing this weekend. Is Saturday morning available?",
-  },
-  {
-    id: "2",
-    name: "Michael Chen",
-    email: "mchen@example.com",
-    phone: "(555) 987-6543",
-    property: "Luxury Villa",
-    date: "2023-03-14",
-    status: "Contacted",
-    message: "Looking for more information about the financing options available for this property.",
-  },
-  {
-    id: "3",
-    name: "Emily Rodriguez",
-    email: "emily.r@example.com",
-    phone: "(555) 234-5678",
-    property: "Cozy Townhouse",
-    date: "2023-03-12",
-    status: "Scheduled",
-    message: "I've seen similar properties in the area. Is there room for negotiation on the asking price?",
-  },
-  {
-    id: "4",
-    name: "David Wilson",
-    email: "dwilson@example.com",
-    phone: "(555) 876-5432",
-    property: "Waterfront Condo",
-    date: "2023-03-10",
-    status: "Closed",
-    message:
-      "I'm relocating for work and need to find a place within the next month. Is this property still available?",
-  },
-  {
-    id: "5",
-    name: "Jessica Brown",
-    email: "jbrown@example.com",
-    phone: "(555) 345-6789",
-    property: "Mountain Retreat",
-    date: "2023-03-08",
-    status: "New",
-    message: "What are the HOA fees for this property and what amenities are included?",
-  },
-]
+interface Inquiry {
+  id: string
+  name: string
+  email: string
+  phone: string
+  property_title: string
+  created_at: string
+  status: 'New' | 'Contacted' | 'Scheduled' | 'Closed'
+  message: string
+}
 
-export default function InquiriesView() {
+interface InquiriesViewProps {
+  inquiries: Inquiry[]
+}
+
+export default function InquiriesView({ inquiries }: InquiriesViewProps) {
   return (
-    <DashboardLayout>
-      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight">Inquiries</h2>
-        </div>
+    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-bold tracking-tight">Inquiries</h2>
+      </div>
 
-        <div className="flex items-center space-x-2">
-          <Input placeholder="Search inquiries..." className="max-w-sm" />
-          <Select defaultValue="all">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Inquiries</SelectItem>
-              <SelectItem value="new">New</SelectItem>
-              <SelectItem value="contacted">Contacted</SelectItem>
-              <SelectItem value="scheduled">Scheduled</SelectItem>
-              <SelectItem value="closed">Closed</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="flex items-center space-x-2">
+        <Input placeholder="Search inquiries..." className="max-w-sm" />
+        <Select defaultValue="all">
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Inquiries</SelectItem>
+            <SelectItem value="new">New</SelectItem>
+            <SelectItem value="contacted">Contacted</SelectItem>
+            <SelectItem value="scheduled">Scheduled</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
+      <Card>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Client</TableHead>
+                <TableHead>Property</TableHead>
+                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {inquiries.length === 0 ? (
                 <TableRow>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Property</TableHead>
-                  <TableHead className="hidden md:table-cell">Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableCell colSpan={5} className="text-center py-8">
+                    No inquiries found.
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {inquiries.map((inquiry) => (
+              ) : (
+                inquiries.map((inquiry) => (
                   <TableRow key={inquiry.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -127,9 +93,9 @@ export default function InquiriesView() {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="font-medium">{inquiry.property}</TableCell>
+                    <TableCell className="font-medium">{inquiry.property_title}</TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {new Date(inquiry.date).toLocaleDateString()}
+                      {new Date(inquiry.created_at).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
                       <Badge
@@ -157,8 +123,10 @@ export default function InquiriesView() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>
-                            <Eye className="mr-2 h-4 w-4" /> View Details
+                          <DropdownMenuItem asChild>
+                            <a href={`/app/inquiries/${inquiry.id}`}>
+                              <Eye className="mr-2 h-4 w-4" /> View Details
+                            </a>
                           </DropdownMenuItem>
                           <DropdownMenuItem>
                             <Clock className="mr-2 h-4 w-4" /> Mark as Contacted
@@ -174,13 +142,13 @@ export default function InquiriesView() {
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
-    </DashboardLayout>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 
