@@ -88,7 +88,7 @@ export default async function DashboardPage() {
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold tracking-tight">Recent Properties</h3>
           <Button variant="link" size="sm" asChild>
-            <Link href="/dashboard/properties">View All Properties</Link>
+            <Link href="/app/properties">View All Properties</Link>
           </Button>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
@@ -127,7 +127,7 @@ export default async function DashboardPage() {
                     </div>
                     <div className="mt-3 flex gap-2">
                       <Button variant="outline" size="sm" className="w-full" asChild>
-                        <Link href={`/dashboard/properties/${property.id}`}>View Details</Link>
+                        <Link href={`/app/properties/${property.id}`}>View Details</Link>
                       </Button>
                     </div>
                   </div>

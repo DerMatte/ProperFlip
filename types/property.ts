@@ -6,7 +6,9 @@ export interface Property {
   bedrooms: number
   bathrooms: number
   sqft: number
-  status: 'Active' | 'Pending' | 'Sold'
+  status: 'Acquisition' | 'Preparation' | 'Marketing' | 'Sold' | 'Lost' 
   image_url?: string
   created_at: string
+  updated_at?: string
+  description?: string
 } 

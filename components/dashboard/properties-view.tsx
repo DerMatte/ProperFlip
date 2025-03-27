@@ -72,7 +72,7 @@ export default function PropertiesView() {
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight">Properties</h2>
           <Button asChild>
-            <Link href="/dashboard/properties/add">
+            <Link href="/app/properties/add">
               <Plus className="mr-2 h-4 w-4" /> Add Property
             </Link>
           </Button>
@@ -91,9 +91,11 @@ export default function PropertiesView() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Properties</SelectItem>
-              <SelectItem value="Active">Active</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
+              <SelectItem value="Acquisition">Acquisition</SelectItem>
+              <SelectItem value="Preparation">Preparation</SelectItem>
+              <SelectItem value="Marketing">Marketing</SelectItem>
               <SelectItem value="Sold">Sold</SelectItem>
+              <SelectItem value="Lost">Lost</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -138,7 +140,7 @@ export default function PropertiesView() {
                             />
                           </div>
                           <div>
-                            <Link href={`/dashboard/properties/${property.id}`} className="font-medium hover:underline">
+                            <Link href={`/app/properties/${property.id}`} className="font-medium hover:underline">
                               {property.title}
                             </Link>
                             <div className="text-sm text-muted-foreground">{property.address}</div>
@@ -175,7 +177,7 @@ export default function PropertiesView() {
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem asChild>
-                              <Link href={`/dashboard/properties/${property.id}`}>
+                              <Link href={`/app/properties/${property.id}`}>
                                 <Edit className="mr-2 h-4 w-4" /> View Details
                               </Link>
                             </DropdownMenuItem>

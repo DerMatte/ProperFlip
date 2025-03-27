@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
+import { signOutAction } from "@/app/actions";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -20,7 +21,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     .single();
 
   return (
-      <DashboardLayout user={user}>
+      <DashboardLayout user={user} signOutAction={signOutAction}>
         {children}
       </DashboardLayout>
   );
