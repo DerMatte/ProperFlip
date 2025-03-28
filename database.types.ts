@@ -18,10 +18,10 @@ export type Database = {
           end_time: string
           id: string
           location: string | null
+          profile_id: string
           property_id: string | null
           start_time: string
           title: string
-          user_id: string
         }
         Insert: {
           category: string
@@ -31,10 +31,10 @@ export type Database = {
           end_time: string
           id?: string
           location?: string | null
+          profile_id: string
           property_id?: string | null
           start_time: string
           title: string
-          user_id: string
         }
         Update: {
           category?: string
@@ -44,12 +44,20 @@ export type Database = {
           end_time?: string
           id?: string
           location?: string | null
+          profile_id?: string
           property_id?: string | null
           start_time?: string
           title?: string
-          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "events_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -96,6 +104,7 @@ export type Database = {
           price: number
           sqft: number
           status: string
+          team_id: string | null
           title: string
           updated_at: string | null
         }
@@ -110,6 +119,7 @@ export type Database = {
           price: number
           sqft: number
           status?: string
+          team_id?: string | null
           title: string
           updated_at?: string | null
         }
@@ -124,10 +134,19 @@ export type Database = {
           price?: number
           sqft?: number
           status?: string
+          team_id?: string | null
           title?: string
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "properties_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       team_members: {
         Row: {
