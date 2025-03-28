@@ -14,7 +14,7 @@ interface Inquiry {
   phone: string;
   property_title: string;
   created_at: string;
-  status: 'New' | 'Contacted' | 'Scheduled' | 'Closed';
+  status: 'New' | 'Contacted' | 'Scheduled' | 'Closed' | 'Lost';
   message: string;
 }
 

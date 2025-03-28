@@ -14,6 +14,26 @@ import Image from "next/image"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/server"
 import type { Property } from "@/types/property"
+import { PropertyStatusSelector } from "./PropertyStatusSelector"
+import { revalidatePath } from "next/cache"
+
+async function updatePropertyStatus(id: string, status: string): Promise<void> {
+  "use server"
+  
+  const supabase = await createClient()
+  
+  const { error } = await supabase
+    .from("properties")
+    .update({ status })
+    .eq("id", id)
+  
+  if (error) {
+    console.error("Error updating property status:", error)
+    throw new Error("Failed to update property status")
+  }
+  
+  revalidatePath("/app/properties")
+}
 
 export default async function PropertiesPage() {
   const supabase = await createClient()
@@ -86,17 +106,10 @@ export default async function PropertiesPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                          property.status === "Active"
-                            ? "bg-green-100 text-green-800"
-                            : property.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-blue-100 text-blue-800"
-                        }`}
-                      >
-                        {property.status}
-                      </div>
+                      <PropertyStatusSelector
+                        property={property}
+                        handleStatusChange={updatePropertyStatus}
+                      />
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
