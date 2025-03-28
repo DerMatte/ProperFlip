@@ -63,7 +63,6 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
                 Sign up
               </Link>
             </p>
-            <FormMessage message={searchParams} />
           </CardFooter>
         </form>
       </Card>

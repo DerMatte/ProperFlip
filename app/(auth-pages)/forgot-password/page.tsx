@@ -49,7 +49,6 @@ export default async function ForgotPassword(props: {
                 Sign in
               </Link>
             </p>
-            <FormMessage message={searchParams} />
           </CardFooter>
         </form>
       </Card>

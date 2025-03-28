@@ -68,7 +68,6 @@ export default async function Signup(props: {
                 Sign in
               </Link>
             </p>
-            <FormMessage message={searchParams} />
           </CardFooter>
         </form>
       </Card>
