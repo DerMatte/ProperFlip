@@ -36,7 +36,8 @@ import { AIAssistantButton } from "./ai-assistant";
 
 interface UserProfile {
   id: string;
-  full_name?: string;
+  first_name?: string;
+  last_name?: string;
   avatar_url?: string;
   role?: string;
 }
@@ -62,9 +63,9 @@ export function DashboardLayout({
       <div className="flex min-h-screen w-full">
         <Sidebar>
           <SidebarHeader className="border-b px-6 py-3">
-            <Link href="/app" className="flex items-center gap-2">
+            <Link href="/app" className="flex items-center gap-2 py-1">
               <Home className="h-6 w-6" />
-              <span className="font-bold text-xl">RealtyPro</span>
+              <span className="font-bold text-xl">ProperFlip</span>
             </Link>
           </SidebarHeader>
           <SidebarContent>
@@ -189,7 +190,7 @@ export function DashboardLayout({
                   src={user.profile?.avatar_url || "/placeholder-user.jpg"}
                 />
                 <AvatarFallback>
-                  {user.profile?.full_name
+                  {user.profile?.first_name
                     ?.split(" ")
                     .map((n: string) => n[0])
                     .join("") || "JD"}
@@ -197,7 +198,7 @@ export function DashboardLayout({
               </Avatar>
               <div className="flex flex-col">
                 <span className="text-sm font-medium">
-                  {user.profile?.full_name || user.email || "John Doe"}
+                  {user.profile?.first_name || user.email || "John Doe"}
                 </span>
                 <span className="text-xs text-muted-foreground">
                   {user.profile?.role === "admin"

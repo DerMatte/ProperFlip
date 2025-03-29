@@ -1,0 +1,12 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Perfect Nextjs + Supabase
+
+- use React Server Components as much as possible and use Server Actions where it makes sense
+- In dynamic pages params have to be always awaited
+- Do not make changes to the database in client components, only requests are allowed
+- Use Supabase as the database 

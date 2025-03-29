@@ -173,6 +173,8 @@ export async function createPropertyAction(formData: FormData) {
     const sqft = parseInt(formData.get("sqft") as string);
     const status = formData.get("status") as string;
     const image_url = formData.get("image_url") as string || "/placeholder.svg?height=400&width=600";
+    // Get the uploaded image file if any
+    const imageFile = formData.get("image") as File | null;
 
     // Validate required fields
     if (!title || !address || !price || !bedrooms || !bathrooms || !sqft) {
@@ -214,6 +216,39 @@ export async function createPropertyAction(formData: FormData) {
       }
       
       return { error: error.message };
+    }
+
+    // If there's an image file, upload it
+    if (imageFile && data.id) {
+      // Use consistent file path: {id}/0.jpg
+      const filePath = `${data.id}/0.jpg`;
+      
+      // Upload the file to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('property-images')
+        .upload(filePath, imageFile, { 
+          upsert: true, // Override if the file already exists
+          contentType: 'image/jpeg' 
+        });
+        
+      if (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        // Continue with property creation even if image upload fails
+      } else {
+        // Get the signed URL for the uploaded image
+        const { data: imageData } = await supabase.storage
+          .from("property-images")
+          .createSignedUrl(filePath, 60 * 60 * 24 * 30);
+        
+        if (imageData?.signedUrl) {
+          // Update the property with the image URL
+          await supabase
+            .from("properties")
+            .update({ image_url: imageData.signedUrl })
+            .eq('id', data.id)
+            .eq('team_id', teamMember.team_id);
+        }
+      }
     }
 
     return { success: true, data };

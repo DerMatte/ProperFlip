@@ -123,7 +123,7 @@ export type Database = {
           image_url?: string | null
           price: number
           sqft: number
-          status?: string
+          status: string
           team_id?: string | null
           title: string
           updated_at?: string | null
@@ -263,6 +263,7 @@ export type Database = {
         | "Marketing"
         | "Sold"
         | "Lost"
+        | "Archived"
     }
     CompositeTypes: {
       [_ in never]: never

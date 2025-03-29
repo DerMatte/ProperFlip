@@ -17,7 +17,7 @@ import type { Property } from "@/types/property"
 import { PropertyStatusSelector } from "./PropertyStatusSelector"
 import { revalidatePath } from "next/cache"
 
-async function updatePropertyStatus(id: string, status: string): Promise<void> {
+export async function updatePropertyStatus(id: string, status: string): Promise<void> {
   "use server"
   
   const supabase = await createClient()
