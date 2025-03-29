@@ -112,6 +112,7 @@ export default async function PropertiesPage() {
                   <TableHead>Price</TableHead>
                   <TableHead className="hidden md:table-cell">Details</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Description</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -142,6 +143,9 @@ export default async function PropertiesPage() {
                       <div className="text-sm">
                         {property.bedrooms} bd | {property.bathrooms} ba | {property.sqft.toLocaleString()} sqft
                       </div>
+                    </TableCell>
+                    <TableCell className="max-w-xs">
+                      {property.description}
                     </TableCell>
                     <TableCell>
                       <PropertyStatusSelector

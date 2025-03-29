@@ -160,7 +160,7 @@ export function EditPropertyForm({ property }: EditPropertyFormProps) {
     <form action={handleUpdateProperty}>
       <Card>
         <CardHeader>
-          <CardTitle>Edit Property</CardTitle>
+
         </CardHeader>
         <CardContent className="space-y-6">
           {optimisticState.error && (
