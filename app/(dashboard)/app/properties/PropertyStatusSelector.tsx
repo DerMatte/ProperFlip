@@ -60,7 +60,7 @@ export function PropertyStatusSelector({
   const statusOption = PropertyStatusOptions.find((option) => option.value === optimisticProperty.status);
   
   return (
-    <Select defaultValue={optimisticProperty.status} onValueChange={onStatusChange}>
+    <Select value={optimisticProperty.status} onValueChange={onStatusChange}>
       <SelectTrigger className="p-0 h-auto border-0 bg-transparent w-auto focus:ring-0 focus:ring-offset-0">
         <Badge 
           variant="outline" 

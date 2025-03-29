@@ -10,6 +10,11 @@ import type { Property } from "@/types/property"
 export default async function DashboardPage() {
   const supabase = await createClient()
 
+  // get user name
+  const { data: { user } } = await supabase.auth.getUser()
+  const {data: profile} = await supabase.from("profiles").select("*").eq("id", user?.id).single()
+  const userName = profile?.first_name
+
   // Fetch recent properties
   const { data: recentProperties, error: propertiesError } = await supabase
     .from("properties")
@@ -40,7 +45,7 @@ export default async function DashboardPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <div className="flex items-center space-x-2">
-            <p className="text-sm text-muted-foreground">Welcome back, John Doe</p>
+            <p className="text-sm text-muted-foreground">Welcome back, {userName}</p>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

@@ -144,9 +144,11 @@ export default function AddPropertyForm() {
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Active">Active</SelectItem>
-                    <SelectItem value="Pending">Pending</SelectItem>
+                    <SelectItem value="Acquisition">Acquisition</SelectItem>
+                    <SelectItem value="Preparation">Preparation</SelectItem>
+                    <SelectItem value="Marketing">Marketing</SelectItem>
                     <SelectItem value="Sold">Sold</SelectItem>
+                    <SelectItem value="Lost">Lost</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

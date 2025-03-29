@@ -22,6 +22,44 @@ async function updatePropertyStatus(id: string, status: string): Promise<void> {
   
   const supabase = await createClient()
   
+  // First get the user's team
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    console.error("No authenticated user found")
+    throw new Error("Unauthorized")
+  }
+
+  // Get the user's team
+  const { data: teamMember, error: teamError } = await supabase
+    .from('team_members')
+    .select('team_id, role')
+    .eq('user_id', user.id)
+    .single()
+
+  if (teamError) {
+    console.error("Error fetching team:", teamError)
+    throw new Error("Failed to verify team membership")
+  }
+
+  // Get the property's current data
+  const { data: property, error: propertyError } = await supabase
+    .from("properties")
+    .select("team_id")
+    .eq("id", id)
+    .single()
+
+  if (propertyError) {
+    console.error("Error fetching property:", propertyError)
+    throw new Error("Failed to fetch property")
+  }
+
+  // Verify team membership
+  if (property.team_id !== teamMember.team_id) {
+    console.error("User's team does not match property's team")
+    throw new Error("Unauthorized: Property belongs to a different team")
+  }
+  
   const { error } = await supabase
     .from("properties")
     .update({ status })
@@ -29,7 +67,7 @@ async function updatePropertyStatus(id: string, status: string): Promise<void> {
   
   if (error) {
     console.error("Error updating property status:", error)
-    throw new Error("Failed to update property status")
+    throw new Error(error.message)
   }
   
   revalidatePath("/app/properties")

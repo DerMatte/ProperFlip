@@ -68,6 +68,7 @@ export type Database = {
           last_name: string | null
           phone_number: string | null
           role: string | null
+          slug: string
           updated_at: string
         }
         Insert: {
@@ -78,6 +79,7 @@ export type Database = {
           last_name?: string | null
           phone_number?: string | null
           role?: string | null
+          slug?: string
           updated_at?: string
         }
         Update: {
@@ -88,6 +90,7 @@ export type Database = {
           last_name?: string | null
           phone_number?: string | null
           role?: string | null
+          slug?: string
           updated_at?: string
         }
         Relationships: []
@@ -98,6 +101,7 @@ export type Database = {
           bathrooms: number
           bedrooms: number
           created_at: string | null
+          created_by: string | null
           description: string | null
           id: string
           image_url: string | null
@@ -113,6 +117,7 @@ export type Database = {
           bathrooms: number
           bedrooms: number
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
@@ -128,6 +133,7 @@ export type Database = {
           bathrooms?: number
           bedrooms?: number
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
@@ -139,6 +145,13 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "properties_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "properties_team_id_fkey"
             columns: ["team_id"]
@@ -196,6 +209,7 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          slug: string | null
           updated_at: string
         }
         Insert: {
@@ -203,6 +217,7 @@ export type Database = {
           description?: string | null
           id?: string
           name: string
+          slug?: string | null
           updated_at?: string
         }
         Update: {
@@ -210,6 +225,7 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
+          slug?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -241,7 +257,12 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      PropertyStatus:
+        | "Acquisition"
+        | "Preparation"
+        | "Marketing"
+        | "Sold"
+        | "Lost"
     }
     CompositeTypes: {
       [_ in never]: never
