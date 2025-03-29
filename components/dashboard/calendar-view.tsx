@@ -454,7 +454,7 @@ export default function CalendarView() {
                         >
                           <div className="flex items-start">
                             <div
-                              className="mt-0.5 h-3 w-3 rounded-full mr-2 flex-shrink-0"
+                              className="mt-0.5 h-3 w-3 rounded-full mr-2 shrink-0"
                               style={{ backgroundColor: event.color }}
                             />
                             <div>

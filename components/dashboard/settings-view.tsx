@@ -529,7 +529,7 @@ export default function SettingsView() {
                     </div>
                     <div className="space-y-2">
                       <div className="border-2 border-muted rounded-md p-2 cursor-pointer">
-                        <div className="h-20 bg-gradient-to-b from-background to-zinc-900 rounded-md"></div>
+                        <div className="h-20 bg-linear-to-b from-background to-zinc-900 rounded-md"></div>
                       </div>
                       <p className="text-sm text-center">System</p>
                     </div>
@@ -650,7 +650,7 @@ export default function SettingsView() {
 function Badge({ className, children, ...props }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}
+      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}
       {...props}
     >
       {children}

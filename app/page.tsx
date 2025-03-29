@@ -56,7 +56,7 @@ export default async function Home() {
           </div>
         </section>
         
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950 dark:to-blue-950">
+        <section className="py-16 sm:py-24 bg-linear-to-br from-purple-50 to-blue-50 dark:from-purple-950 dark:to-blue-950">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="md:w-1/2">
@@ -70,7 +70,7 @@ export default async function Home() {
                   <a href="/sign-up" className="px-8 py-3 text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 transition-colors duration-300 shadow-md">
                     Create Free Account
                   </a>
-                  <a href="/contact" className="px-8 py-3 text-base font-medium rounded-md text-purple-600 dark:text-purple-400 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-purple-200 dark:border-purple-800 transition-colors duration-300 shadow-sm">
+                  <a href="/contact" className="px-8 py-3 text-base font-medium rounded-md text-purple-600 dark:text-purple-400 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-purple-200 dark:border-purple-800 transition-colors duration-300 shadow-xs">
                     Contact Sales
                   </a>
                 </div>

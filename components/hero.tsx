@@ -3,7 +3,7 @@ import SupabaseLogo from "./supabase-logo";
 
 export default function Header() {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 py-16 sm:py-24">
+    <div className="relative overflow-hidden bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 py-16 sm:py-24">
       <div className="absolute top-0 right-0 -mt-16 opacity-20">
         <svg width="404" height="384" fill="none" viewBox="0 0 404 384">
           <defs>
@@ -32,7 +32,7 @@ export default function Header() {
             <a href="/sign-up" className="px-8 py-3 text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 transition-colors duration-300 shadow-md">
               Get Started
             </a>
-            <a href="#features" className="px-8 py-3 text-base font-medium rounded-md text-purple-600 dark:text-purple-400 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-purple-200 dark:border-purple-800 transition-colors duration-300 shadow-sm">
+            <a href="#features" className="px-8 py-3 text-base font-medium rounded-md text-purple-600 dark:text-purple-400 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-purple-200 dark:border-purple-800 transition-colors duration-300 shadow-xs">
               Learn More
             </a>
           </div>
@@ -48,7 +48,7 @@ export default function Header() {
           <rect width="404" height="384" fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)" />
         </svg>
       </div>
-      <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-purple-300/30 dark:via-purple-600/30 to-transparent my-8" />
+      <div className="w-full p-[1px] bg-linear-to-r from-transparent via-purple-300/30 dark:via-purple-600/30 to-transparent my-8" />
     </div>
   );
 }
