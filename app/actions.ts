@@ -257,3 +257,143 @@ export async function createPropertyAction(formData: FormData) {
     return { error: "Failed to create property" };
   }
 }
+
+export async function updatePropertyAction(propertyId: string, formData: FormData) {
+  "use server";
+
+  const supabase = await createClient();
+  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
+    // First get the user's team
+    const { data: teamMember, error: teamError } = await supabase
+      .from('team_members')
+      .select('team_id, role')
+      .eq('user_id', user.id)
+      .single();
+
+    if (teamError) {
+      console.error("Error fetching team:", teamError);
+      return { error: "You must be part of a team to update properties" };
+    }
+
+    if (!teamMember) {
+      return { error: "Please join or create a team before updating properties" };
+    }
+
+    // Extract form data
+    const title = formData.get("title") as string;
+    const address = formData.get("address") as string;
+    const description = formData.get("description") as string;
+    const price = parseFloat(formData.get("price") as string);
+    const bedrooms = parseInt(formData.get("bedrooms") as string);
+    const bathrooms = parseInt(formData.get("bathrooms") as string);
+    const sqft = parseInt(formData.get("sqft") as string);
+    const status = formData.get("status") as string;
+    const image_url = formData.get("image_url") as string;
+    // Get the uploaded image file if any
+    const imageFile = formData.get("image") as File | null;
+
+    // Validate required fields
+    if (!title || !address || !price || !bedrooms || !bathrooms || !sqft) {
+      return { error: "Missing required fields" };
+    }
+
+    // Get the property's current data to check team membership
+    const { data: property, error: propertyError } = await supabase
+      .from("properties")
+      .select("team_id")
+      .eq("id", propertyId)
+      .single();
+
+    if (propertyError) {
+      console.error("Error fetching property:", propertyError);
+      return { error: "Failed to fetch property" };
+    }
+
+    // Verify team membership
+    if (property.team_id !== teamMember.team_id) {
+      return { error: "Unauthorized: Property belongs to a different team" };
+    }
+
+    // Update property data
+    const propertyUpdate = {
+      title,
+      address,
+      description,
+      price,
+      bedrooms,
+      bathrooms,
+      sqft,
+      status: status || "Acquisition",
+      updated_at: new Date().toISOString(),
+    };
+
+    // Update the property in the database
+    const { data, error } = await supabase
+      .from("properties")
+      .update(propertyUpdate)
+      .eq('id', propertyId)
+      .eq('team_id', teamMember.team_id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error updating property:", error);
+      
+      // Handle specific RLS error
+      if (error.message.includes("row-level security")) {
+        return { 
+          error: "You don't have permission to update properties for this team. Please contact your team administrator." 
+        };
+      }
+      
+      return { error: error.message };
+    }
+
+    // If there's an image file, upload it
+    if (imageFile && propertyId) {
+      // Use consistent file path: {id}/0.jpg
+      const filePath = `${propertyId}/0.jpg`;
+      
+      // Upload the file to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('property-images')
+        .upload(filePath, imageFile, { 
+          upsert: true, // Override if the file already exists
+          contentType: 'image/jpeg' 
+        });
+        
+      if (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        // Continue with property update even if image upload fails
+      } else {
+        // Get the signed URL for the uploaded image
+        const { data: imageData } = await supabase.storage
+          .from("property-images")
+          .createSignedUrl(filePath, 60 * 60 * 24 * 30);
+        
+        if (imageData?.signedUrl) {
+          // Update the property with the image URL
+          await supabase
+            .from("properties")
+            .update({ image_url: imageData.signedUrl })
+            .eq('id', propertyId)
+            .eq('team_id', teamMember.team_id);
+        }
+      }
+    }
+
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("Server error:", error);
+    return { error: "Failed to update property" };
+  }
+}
