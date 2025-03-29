@@ -1,22 +1,30 @@
 import Link from 'next/link'
 import { getTeams } from '@/utils/teams'
 import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default async function TeamsList() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   
   if (!user) {
-    return (
-      <div className="text-center p-4 bg-gray-50 rounded-lg">
-        <p>You need to be signed in to view teams</p>
-      </div>
-    )
+    redirect("/sign-in")
   }
   
-  const teams = await getTeams(user.id)
+  const { data, error } = await supabase
+  .from('teams')
+  .select(`
+    *,
+    team_members!inner(user_id)
+  `)
+  .eq('team_members.user_id', user.id)
+
+  if (error) {
+    console.error("Error fetching teams:", error)
+    throw new Error("Failed to fetch teams")
+  }
   
-  if (teams.length === 0) {
+  if (data.length === 0) {
     return (
       <div className="text-center p-8 bg-gray-50 rounded-lg">
         <h3 className="text-lg font-medium mb-2">No teams yet</h3>
@@ -27,7 +35,7 @@ export default async function TeamsList() {
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {teams.map((team) => (
+      {data.map((team) => (
         <Link 
           key={team.id} 
           href={`/app/teams/${team.id}`}

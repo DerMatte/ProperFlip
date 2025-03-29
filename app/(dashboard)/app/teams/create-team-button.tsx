@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
-
+import { Button } from '@/components/ui/button'
 export default function CreateTeamButton() {
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState('')
@@ -11,6 +11,7 @@ export default function CreateTeamButton() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   
+  // TODO: Add validation and make it a Server Action
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim()) return
@@ -61,12 +62,12 @@ export default function CreateTeamButton() {
   
   return (
     <>
-      <button
+      <Button
         onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        className=""
       >
         Create Team
-      </button>
+      </Button>
       
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
