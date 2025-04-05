@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { CalendarClient } from "@/components/dashboard/calendar-client"
 
 export default async function CalendarPage() {
   const supabase = await createClient()
@@ -38,10 +39,7 @@ export default async function CalendarPage() {
             <CardTitle>Schedule</CardTitle>
           </CardHeader>
           <CardContent>
-            <Calendar
-              mode="single"
-              className="rounded-md border"
-            />
+            <CalendarClient initialEvents={events || []} />
           </CardContent>
         </Card>
 

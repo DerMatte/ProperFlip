@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/server'
 import TeamMembersList from './team-members-list'
 import InviteMemberButton from './invite-member-button'
 
-export default async function TeamPage({ params }: { params: { id: string } }) {
+export default async function TeamPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   

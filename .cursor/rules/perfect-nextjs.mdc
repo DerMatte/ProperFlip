@@ -10,3 +10,27 @@ alwaysApply: true
 - In dynamic pages params have to be always awaited
 - Do not make changes to the database in client components, only requests are allowed
 - Use Supabase as the database 
+- put components into `@/components` and sort them based on feature category
+
+Do this:
+```tsx
+export default async function DemoPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  // more code
+}
+```
+Do NOT do this:
+```tsx
+export default async function DemoPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
+  // more code
+}
+```
